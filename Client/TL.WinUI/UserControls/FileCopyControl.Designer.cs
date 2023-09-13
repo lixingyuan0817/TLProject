@@ -28,30 +28,42 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
+            PathText = new TextBox();
+            ContentText = new RichTextBox();
             SuspendLayout();
             // 
-            // textBox1
+            // PathText
             // 
-            textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBox1.Location = new Point(3, 3);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(426, 23);
-            textBox1.TabIndex = 0;
+            PathText.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            PathText.Location = new Point(3, 3);
+            PathText.Name = "PathText";
+            PathText.Size = new Size(424, 23);
+            PathText.TabIndex = 0;
+            // 
+            // ContentText
+            // 
+            ContentText.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            ContentText.Location = new Point(3, 32);
+            ContentText.Name = "ContentText";
+            ContentText.Size = new Size(424, 535);
+            ContentText.TabIndex = 1;
+            ContentText.Text = "";
             // 
             // FileCopyControl
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(textBox1);
+            Controls.Add(ContentText);
+            Controls.Add(PathText);
             Name = "FileCopyControl";
-            Size = new Size(432, 573);
+            Size = new Size(430, 570);
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private TextBox textBox1;
+        private TextBox PathText;
+        private RichTextBox ContentText;
     }
 }

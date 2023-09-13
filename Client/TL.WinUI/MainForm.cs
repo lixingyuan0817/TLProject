@@ -1,4 +1,5 @@
 using TL.WinUI.Runtime;
+using TL.WinUI.UserControls;
 
 namespace TL.WinUI
 {
@@ -41,6 +42,20 @@ namespace TL.WinUI
             int trackBarValue = TransparencyTrackBar.Value;
             double opacity = 1.00 - trackBarValue / 100.00; // 将值映射到0.0到0.8的范围，最大值限制为80%
             transparencyManager.SetTransparency(opacity);
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                TLBeforeGroup.Controls.Clear();
+                var userControl = BaseControl.GetUserControl();
+                if (userControl != null)
+                {
+                    userControl.Dock = DockStyle.Fill;
+                    TLBeforeGroup.Controls.Add(userControl);
+                }
+            }
         }
     }
 }

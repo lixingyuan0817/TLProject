@@ -48,7 +48,7 @@
             // 
             TransparencyTrackBar.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             TransparencyTrackBar.AutoSize = false;
-            TransparencyTrackBar.Location = new Point(1177, 3);
+            TransparencyTrackBar.Location = new Point(707, 3);
             TransparencyTrackBar.Maximum = 70;
             TransparencyTrackBar.Name = "TransparencyTrackBar";
             TransparencyTrackBar.Size = new Size(210, 22);
@@ -60,9 +60,9 @@
             // 
             BottomBarPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             BottomBarPanel.Controls.Add(TransparencyTrackBar);
-            BottomBarPanel.Location = new Point(0, 707);
+            BottomBarPanel.Location = new Point(0, 417);
             BottomBarPanel.Name = "BottomBarPanel";
-            BottomBarPanel.Size = new Size(1390, 28);
+            BottomBarPanel.Size = new Size(920, 28);
             BottomBarPanel.TabIndex = 3;
             // 
             // TLBeforeGroup
@@ -70,7 +70,7 @@
             TLBeforeGroup.Dock = DockStyle.Fill;
             TLBeforeGroup.Location = new Point(0, 0);
             TLBeforeGroup.Name = "TLBeforeGroup";
-            TLBeforeGroup.Size = new Size(689, 676);
+            TLBeforeGroup.Size = new Size(454, 386);
             TLBeforeGroup.TabIndex = 0;
             TLBeforeGroup.TabStop = false;
             TLBeforeGroup.Tag = "翻译前";
@@ -81,7 +81,7 @@
             TLAfterGroup.Dock = DockStyle.Fill;
             TLAfterGroup.Location = new Point(0, 0);
             TLAfterGroup.Name = "TLAfterGroup";
-            TLAfterGroup.Size = new Size(689, 676);
+            TLAfterGroup.Size = new Size(454, 386);
             TLAfterGroup.TabIndex = 0;
             TLAfterGroup.TabStop = false;
             TLAfterGroup.Tag = "翻译后";
@@ -102,7 +102,7 @@
             MenuBar.Items.AddRange(new ToolStripItem[] { TLProcessBar });
             MenuBar.Location = new Point(0, 0);
             MenuBar.Name = "MenuBar";
-            MenuBar.Size = new Size(1390, 25);
+            MenuBar.Size = new Size(920, 25);
             MenuBar.TabIndex = 1;
             // 
             // CenterContainer
@@ -120,22 +120,24 @@
             // CenterContainer.Panel2
             // 
             CenterContainer.Panel2.Controls.Add(TLAfterGroup);
-            CenterContainer.Size = new Size(1390, 680);
-            CenterContainer.SplitterDistance = 693;
+            CenterContainer.Size = new Size(920, 390);
+            CenterContainer.SplitterDistance = 458;
             CenterContainer.TabIndex = 4;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1390, 735);
+            ClientSize = new Size(920, 445);
             ControlBox = false;
             Controls.Add(CenterContainer);
             Controls.Add(MenuBar);
             Controls.Add(BottomBarPanel);
             DoubleBuffered = true;
+            KeyPreview = true;
             Name = "MainForm";
             Text = "Li.TransactionClient";
+            KeyDown += MainForm_KeyDown;
             ((System.ComponentModel.ISupportInitialize)TransparencyTrackBar).EndInit();
             BottomBarPanel.ResumeLayout(false);
             MenuBar.ResumeLayout(false);

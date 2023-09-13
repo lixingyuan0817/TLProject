@@ -1,20 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace TL.WinUI.UserControls
+﻿namespace TL.WinUI.UserControls
 {
     public partial class FileCopyControl : UserControl
     {
-        public FileCopyControl()
+        public FileCopyControl(string path)
         {
             InitializeComponent();
+            this.PathText.ReadOnly = true;
+            this.ContentText.ReadOnly = true;
+            this.PathText.Text = path;
+            if (File.Exists(path))
+            {
+                var file = new FileInfo(path);
+                using var reader = file.OpenText();
+                this.ContentText.Text = reader.ReadToEnd();
+            }
+            else
+            {
+                ContentText.Text = "错误的文件路径";
+            }
         }
     }
 }
