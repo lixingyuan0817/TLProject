@@ -77,6 +77,11 @@ namespace TL.WinUI
         /// <param name="e"></param>
         private void MainForm_Deactivate(object sender, EventArgs e)
         {
+            if (RTContext.IsTopping)
+            {
+                HideForm(false);
+                return;
+            }
             HideForm(true);
         }
 
@@ -131,46 +136,14 @@ namespace TL.WinUI
         #endregion
 
         /// <summary>
-        /// 隐藏窗体
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CloseForm_Click(object sender, EventArgs e)
-        {
-            HideForm(true);
-        }
-
-        /// <summary>
-        /// 最大化窗口
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MaxFrom_Click(object sender, EventArgs e)
-        {
-            var btn = (ToolStripButton)sender;
-            if (btn.Text == "最大化")
-            {
-                this.WindowState = FormWindowState.Maximized;
-                btn.Text = "还原";
-                return;
-            }
-            if (btn.Text == "还原")
-            {
-                this.WindowState = FormWindowState.Normal;
-                btn.Text = "最大化";
-                return;
-            }
-
-        }
-
-        /// <summary>
         /// 推出程序
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Close_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Dispose();
+            Application.Exit();
         }
 
         /// <summary>
@@ -228,8 +201,30 @@ namespace TL.WinUI
                 {
                     this.Show();
                     this.Activate();
+                    this.WindowState = RTContext.WindowState;
                 }
             }
+        }
+
+        /// <summary>
+        /// 调整窗口大小时记录原本值
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            RTContext.WindowState = this.WindowState == FormWindowState.Minimized ? FormWindowState.Normal : this.WindowState;
+        }
+
+        /// <summary>
+        /// 取消关闭窗口改为隐藏
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            HideForm(true);
         }
     }
 }

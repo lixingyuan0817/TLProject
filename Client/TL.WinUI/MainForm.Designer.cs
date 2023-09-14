@@ -37,10 +37,6 @@
             MenuBar = new ToolStrip();
             toolStripButton1 = new ToolStripButton();
             toolStripSeparator1 = new ToolStripSeparator();
-            CloseForm = new ToolStripButton();
-            MaxFrom = new ToolStripButton();
-            toolStripSeparator2 = new ToolStripSeparator();
-            ToppingForm = new ToolStripButton();
             CenterContainer = new SplitContainer();
             NotifyIcon = new NotifyIcon(components);
             NotifyMenu = new ContextMenuStrip(components);
@@ -102,14 +98,11 @@
             // 
             // MenuBar
             // 
-            MenuBar.Items.AddRange(new ToolStripItem[] { toolStripButton1, toolStripSeparator1, CloseForm, MaxFrom, toolStripSeparator2, ToppingForm });
+            MenuBar.Items.AddRange(new ToolStripItem[] { toolStripButton1, toolStripSeparator1 });
             MenuBar.Location = new Point(0, 0);
             MenuBar.Name = "MenuBar";
             MenuBar.Size = new Size(1146, 25);
             MenuBar.TabIndex = 1;
-            MenuBar.MouseDown += MenuBar_MouseDown;
-            MenuBar.MouseMove += MenuBar_MouseMove;
-            MenuBar.MouseUp += MenuBar_MouseUp;
             // 
             // toolStripButton1
             // 
@@ -125,47 +118,6 @@
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
             toolStripSeparator1.Size = new Size(6, 25);
-            // 
-            // CloseForm
-            // 
-            CloseForm.Alignment = ToolStripItemAlignment.Right;
-            CloseForm.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            CloseForm.Image = (Image)resources.GetObject("CloseForm.Image");
-            CloseForm.ImageTransparentColor = Color.Magenta;
-            CloseForm.Name = "CloseForm";
-            CloseForm.RightToLeft = RightToLeft.No;
-            CloseForm.Size = new Size(36, 22);
-            CloseForm.Text = "关闭";
-            CloseForm.Click += CloseForm_Click;
-            // 
-            // MaxFrom
-            // 
-            MaxFrom.Alignment = ToolStripItemAlignment.Right;
-            MaxFrom.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            MaxFrom.Image = (Image)resources.GetObject("MaxFrom.Image");
-            MaxFrom.ImageTransparentColor = Color.Magenta;
-            MaxFrom.Name = "MaxFrom";
-            MaxFrom.RightToLeft = RightToLeft.No;
-            MaxFrom.Size = new Size(48, 22);
-            MaxFrom.Text = "最大化";
-            MaxFrom.Click += MaxFrom_Click;
-            // 
-            // toolStripSeparator2
-            // 
-            toolStripSeparator2.Alignment = ToolStripItemAlignment.Right;
-            toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(6, 25);
-            // 
-            // ToppingForm
-            // 
-            ToppingForm.Alignment = ToolStripItemAlignment.Right;
-            ToppingForm.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            ToppingForm.Image = (Image)resources.GetObject("ToppingForm.Image");
-            ToppingForm.ImageTransparentColor = Color.Magenta;
-            ToppingForm.Name = "ToppingForm";
-            ToppingForm.Size = new Size(36, 22);
-            ToppingForm.Text = "置顶";
-            ToppingForm.Click += ToppingForm_Click;
             // 
             // CenterContainer
             // 
@@ -225,13 +177,14 @@
             Controls.Add(MenuBar);
             Controls.Add(BottomBarPanel);
             DoubleBuffered = true;
-            FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
             Name = "MainForm";
             Text = "Li.TransactionClient";
             Deactivate += MainForm_Deactivate;
+            FormClosing += MainForm_FormClosing;
             Load += MainForm_Load;
+            Resize += MainForm_Resize;
             ((System.ComponentModel.ISupportInitialize)TransparencyTrackBar).EndInit();
             BottomBarPanel.ResumeLayout(false);
             MenuBar.ResumeLayout(false);
@@ -255,11 +208,7 @@
         private NotifyIcon NotifyIcon;
         private ToolStripButton toolStripButton1;
         private ToolStripSeparator toolStripSeparator1;
-        private ToolStripButton ToppingForm;
-        private ToolStripSeparator toolStripSeparator2;
         private ToolStripButton MinForm;
-        private ToolStripButton MaxFrom;
-        private ToolStripButton CloseForm;
         private ContextMenuStrip NotifyMenu;
         private ToolStripMenuItem Close;
         private Panel TLPanel;

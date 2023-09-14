@@ -27,6 +27,8 @@ namespace TL.WinUI.Runtime
 
         public static bool IsTopping { get; set; } = false;
 
+        public static FormWindowState WindowState { get; set; }
+
         public static void LoadContext()
         {
 
