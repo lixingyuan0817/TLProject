@@ -10,7 +10,9 @@ namespace TL.WinUI
         public MainForm()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             //注册窗体全局透明度
@@ -134,19 +136,55 @@ namespace TL.WinUI
         #endregion
 
         /// <summary>
-        /// 双击托盘图标激活窗体
+        /// 隐藏窗体
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void NotifyIcon_DoubleClick(object sender, EventArgs e)
+        private void CloseForm_Click(object sender, EventArgs e)
         {
-            if (!this.Visible)
+            if (this.Visible)
             {
-                this.Show();
-                this.Activate();
+                this.Hide();
             }
         }
 
+        /// <summary>
+        /// 最大化窗口
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MaxFrom_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Maximized;
+        }
 
+        /// <summary>
+        /// 推出程序
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Close_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        /// <summary>
+        /// 左键单击托盘图标激活窗体
+        /// <para>右键显示菜单</para>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (!this.Visible)
+                {
+                    this.Show();
+                    this.WindowState = FormWindowState.Normal;
+                    this.Activate();
+                }
+            }
+        }
     }
 }
