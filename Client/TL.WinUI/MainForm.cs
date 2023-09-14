@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using TL.WinUI.Runtime;
 using TL.WinUI.UserControls;
 
@@ -9,8 +10,32 @@ namespace TL.WinUI
         public MainForm()
         {
             InitializeComponent();
-            transparencyManager.RegisterForm(this);
         }
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            //注册窗体全局透明度
+            transparencyManager.RegisterForm(this);
+            // 启用剪贴板格式监听
+            AddClipboardFormatListener(this.Handle);
+        }
+
+        #region 剪贴板监听
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool AddClipboardFormatListener(IntPtr hwnd);
+
+        const int WM_CLIPBOARDUPDATE = 0x031D;
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+            if (m.Msg == WM_CLIPBOARDUPDATE)
+            {
+                this.Show();
+                this.Activate();
+            }
+        }
+        #endregion
 
         /// <summary>
         /// 重绘翻译前后组标题居中
@@ -44,18 +69,84 @@ namespace TL.WinUI
             transparencyManager.SetTransparency(opacity);
         }
 
-        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        /// <summary>
+        /// 窗体停用时隐藏
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainForm_Deactivate(object sender, EventArgs e)
         {
-            if (e.Control && e.KeyCode == Keys.V)
+            //隐藏窗体
+            if (this.Visible)
             {
-                TLBeforeGroup.Controls.Clear();
-                var userControl = BaseControl.GetUserControl();
-                if (userControl != null)
-                {
-                    userControl.Dock = DockStyle.Fill;
-                    TLBeforeGroup.Controls.Add(userControl);
-                }
+                this.Hide();
             }
         }
+
+        #region 窗口拖动
+        /// <summary>
+        /// 是否拖动
+        /// </summary>
+        private bool isDragging = false;
+        /// <summary>
+        /// 拖动起始位置
+        /// </summary>
+        private Point dragStartPosition;
+
+        /// <summary>
+        /// 鼠标按下时标记为拖动
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuBar_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                isDragging = true;
+                dragStartPosition = e.Location;
+            }
+        }
+
+        /// <summary>
+        /// 按住不放拖动窗体
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuBar_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                Point currentPos = PointToScreen(e.Location);
+                Location = new Point(currentPos.X - dragStartPosition.X, currentPos.Y - dragStartPosition.Y);
+            }
+        }
+
+        /// <summary>
+        /// 停止拖动窗体
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuBar_MouseUp(object sender, MouseEventArgs e)
+        {
+            isDragging = false;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 双击托盘图标激活窗体
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NotifyIcon_DoubleClick(object sender, EventArgs e)
+        {
+            if (!this.Visible)
+            {
+                this.Show();
+                this.Activate();
+            }
+        }
+
+
     }
 }
