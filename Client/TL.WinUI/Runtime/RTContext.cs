@@ -25,6 +25,8 @@ namespace TL.WinUI.Runtime
         public static double Opacity { get; set; }
         #endregion
 
+        public static bool IsTopping { get; set; } = false;
+
         public static void LoadContext()
         {
 

@@ -1,6 +1,5 @@
 using System.Runtime.InteropServices;
 using TL.WinUI.Runtime;
-using TL.WinUI.UserControls;
 
 namespace TL.WinUI
 {
@@ -78,11 +77,7 @@ namespace TL.WinUI
         /// <param name="e"></param>
         private void MainForm_Deactivate(object sender, EventArgs e)
         {
-            //隐藏窗体
-            if (this.Visible)
-            {
-                this.Hide();
-            }
+            HideForm(true);
         }
 
         #region 窗口拖动
@@ -142,10 +137,7 @@ namespace TL.WinUI
         /// <param name="e"></param>
         private void CloseForm_Click(object sender, EventArgs e)
         {
-            if (this.Visible)
-            {
-                this.Hide();
-            }
+            HideForm(true);
         }
 
         /// <summary>
@@ -155,7 +147,20 @@ namespace TL.WinUI
         /// <param name="e"></param>
         private void MaxFrom_Click(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Maximized;
+            var btn = (ToolStripButton)sender;
+            if (btn.Text == "最大化")
+            {
+                this.WindowState = FormWindowState.Maximized;
+                btn.Text = "还原";
+                return;
+            }
+            if (btn.Text == "还原")
+            {
+                this.WindowState = FormWindowState.Normal;
+                btn.Text = "最大化";
+                return;
+            }
+
         }
 
         /// <summary>
@@ -178,10 +183,50 @@ namespace TL.WinUI
         {
             if (e.Button == MouseButtons.Left)
             {
+                HideForm(false);
+            }
+        }
+
+        /// <summary>
+        /// 窗口置顶
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ToppingForm_Click(object sender, EventArgs e)
+        {
+            var btn = (ToolStripButton)sender;
+            if (btn.Text == "置顶")
+            {
+                RTContext.IsTopping = true;
+                btn.Text = "取消置顶";
+                return;
+            }
+            if (btn.Text == "取消置顶")
+            {
+                RTContext.IsTopping = false;
+                btn.Text = "置顶";
+                return;
+            }
+        }
+
+        /// <summary>
+        /// 显示或隐藏窗体
+        /// </summary>
+        /// <param name="isHide"></param>
+        private void HideForm(bool isHide)
+        {
+            if (isHide)
+            {
+                if (this.Visible)
+                {
+                    this.Hide();
+                }
+            }
+            else
+            {
                 if (!this.Visible)
                 {
                     this.Show();
-                    this.WindowState = FormWindowState.Normal;
                     this.Activate();
                 }
             }
